@@ -1,2 +1,2 @@
-# martianRobots
-Robots on Mars API
+# Martian Robots API
+Handling robots envy to Mars surface.
