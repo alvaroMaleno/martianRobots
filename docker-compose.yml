@@ -1,0 +1,7 @@
+version: '1'
+
+services:
+  martianrobots:
+    image: martianrobots
+    ports:
+      - 5000:5000
