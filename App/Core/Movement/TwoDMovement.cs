@@ -14,22 +14,41 @@ public class TwoDMovement : IMovement
             new Dictionary<string, string>()
             {
                 { "N", "E"},
-                { "S", "O"},
+                { "S", "W"},
                 { "E", "S"},
-                { "O", "N"},
+                { "W", "N"},
             }
         },
         {
             "L",
             new Dictionary<string, string>()
             {
-                { "N", "O"},
+                { "N", "W"},
                 { "S", "E"},
                 { "E", "N"},
-                { "O", "S"},
+                { "W", "S"},
             }
         },
     };
+
+    public TwoDMovement() { }
+
+    public ICoordinatesBase GetForwardCoordinatesFromOrientation(char orientation)
+    {
+        switch (orientation) 
+        {
+            case 'E':
+                return new TwoDCoordinates(1, 0);
+            case 'W':
+                return new TwoDCoordinates(-1, 0);
+            case 'N':
+                return new TwoDCoordinates(0, 1);
+            case 'S':
+                return new TwoDCoordinates(0, -1);
+            default:
+                return new TwoDCoordinates(0, 0);
+        };
+    }
 
     public string GetNewOrientation(string orientation, string command)
     {
