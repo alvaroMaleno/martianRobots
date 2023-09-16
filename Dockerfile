@@ -8,9 +8,10 @@ RUN dotnet restore "martianRobots/Tests/UnitTests/Core.Tests/Core.Tests.csproj"
 RUN dotnet test "martianRobots/Tests/UnitTests/Core.Tests/Core.Tests.csproj" -l "console;verbosity=detailed" -t
 
 WORKDIR /App
-COPY ./App .
-RUN dotnet restore
-RUN dotnet publish -o /app/published-app
+COPY ["./Tests/UnitTests/Core.Tests/", "martianRobots/Tests/UnitTests/Core.Tests/"] 
+COPY ["./App/", "martianRobots/App/"] 
+RUN dotnet restore "martianRobots/App/martianRobots.csproj" 
+RUN dotnet publish "martianRobots/App/martianRobots.csproj" -o /app/published-app
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0-alpine as runtime
 WORKDIR /app

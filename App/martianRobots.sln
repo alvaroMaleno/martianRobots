@@ -5,6 +5,8 @@ VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "martianRobots", "martianRobots.csproj", "{D291EF7C-043C-4C57-A44C-FE9BC6BB45D1}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Tests", "..\Tests\UnitTests\Core.Tests\Core.Tests.csproj", "{5239E5CB-E367-4836-AB7A-B47E4804147D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{D291EF7C-043C-4C57-A44C-FE9BC6BB45D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D291EF7C-043C-4C57-A44C-FE9BC6BB45D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D291EF7C-043C-4C57-A44C-FE9BC6BB45D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5239E5CB-E367-4836-AB7A-B47E4804147D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5239E5CB-E367-4836-AB7A-B47E4804147D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5239E5CB-E367-4836-AB7A-B47E4804147D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5239E5CB-E367-4836-AB7A-B47E4804147D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

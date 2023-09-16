@@ -1,5 +1,7 @@
 .vscode/
 App/bin/
 App/obj/
+App/.vs/
 Tests/UnitTests/Core.Tests/bin/
 Tests/UnitTests/Core.Tests/obj/
+bin/
