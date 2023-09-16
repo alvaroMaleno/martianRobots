@@ -1,4 +1,5 @@
-﻿using martianRobots.Core.Models;
+﻿using FluentValidation;
+using martianRobots.Core.Models;
 using martianRobots.Core.Models.Base;
 using martianRobots.Core.Models.Land;
 using martianRobots.Core.Movement;
@@ -7,6 +8,7 @@ using martianRobots.Core.Robots;
 using martianRobots.Core.Robots.Interfaces;
 using martianRobots.Services.MartianRobots;
 using martianRobots.Services.MartianRobots.Interfaces;
+using martianRobots.Validators;
 
 namespace martianRobots.ServicesInjection
 {
@@ -19,6 +21,7 @@ namespace martianRobots.ServicesInjection
             services.AddSingleton<IMovement, TwoDMovement>();
             services.AddSingleton<IRobot, MartianRobot>();
             services.AddSingleton<IMartianRobotsService, MartianRobotsService>();
+            services.AddScoped<IValidator<CoordinatesBase>, CoordinatesBaseValidator>();
 
             return services;
         }
