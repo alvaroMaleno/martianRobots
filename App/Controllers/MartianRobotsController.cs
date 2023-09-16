@@ -15,16 +15,19 @@ public class MartianRobotsController : ControllerBase
  
     private readonly ILogger<MartianRobotsController> _logger;
     private readonly IMartianRobotsService _martianRobotsService;
-    private IValidator<CoordinatesBase> _validator;
+    private IValidator<CoordinatesBase> _coordinatesValidator;
+    private IValidator<MartianRobotInput> _martianRobotInputValidator;
 
     public MartianRobotsController(
         ILogger<MartianRobotsController> logger, 
         IMartianRobotsService martianRobotsService,
-        IValidator<CoordinatesBase> validator)
+        IValidator<CoordinatesBase> coordinatesValidator,
+        IValidator<MartianRobotInput> martianRobotInputValidator)
     {
         _logger = logger;
         _martianRobotsService = martianRobotsService;
-        _validator = validator;
+        _coordinatesValidator = coordinatesValidator;
+        _martianRobotInputValidator = martianRobotInputValidator;
     }
 
     [HttpPost(Name = "PostRobots")]
@@ -42,13 +45,18 @@ public class MartianRobotsController : ControllerBase
         if (inputs.MartianRobots is null)
             return BadRequest("Null martianRobots");
 
-        var validations = _validator.Validate(inputs.LandLimits);
+        var validations = _coordinatesValidator.Validate(inputs.LandLimits);
         if (!validations.IsValid)
             return BadRequest("LandLimits coordinates must be less than or equal to 50.");
 
         foreach (var input in inputs.MartianRobots)
-            if(!_validator.Validate(input.RobotCoordinates).IsValid)
-                return BadRequest("Robot coordinates must be less than or equal to 50.");
+            if(!_martianRobotInputValidator.Validate(input).IsValid)
+                return BadRequest(
+                    string.Concat(
+                        "Robot coordinates must be less than or equal to 50.",
+                        "Command must be less than or equal to 100."
+                        )
+                    );
 
         return Created("Created at: " + DateTime.Now, _martianRobotsService.SendRobotsToMars(inputs));
     }
