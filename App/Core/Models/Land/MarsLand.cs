@@ -28,6 +28,7 @@ public class MarsLand : ILand
         _coordinates = coordinates ?? throw new ArgumentNullException(nameof(coordinates));
         return _coordinates;
     }
+
     public override string ToString() 
     {
         return JsonSerializer.Serialize(_coordinates);
