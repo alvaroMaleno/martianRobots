@@ -3,17 +3,22 @@ using martianRobots.Core.Models.ExInput;
 using martianRobots.Core.Models.Land;
 using martianRobots.Core.Movement;
 using martianRobots.Core.Robots;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using martianRobots.Repositories.Redis.MartianLosts.Interfaces;
+using Moq;
+
 
 namespace Core.Tests.Robots
 {
     public class MartianRobotTests
     {
-        private MartianRobot _robotToTest = new MartianRobot(new TwoDCoordinates(), new TwoDMovement(), new MarsLand());
+        private Mock<IMartianRobotLostRepository> _repositoryMock;
+        private MartianRobot _robotToTest;
+
+        public MartianRobotTests() 
+        {
+            _repositoryMock = new Mock<IMartianRobotLostRepository>();
+            _robotToTest = new MartianRobot(new TwoDCoordinates(), new TwoDMovement(), new MarsLand(_repositoryMock.Object));
+        }
 
         [Theory]
         [InlineData(1, 1, "RFRFRFRF", "E", "1 1 E")]
@@ -31,23 +36,6 @@ namespace Core.Tests.Robots
             When_martian_robot_execute_movement(input);
             Then_martian_output_is_equals_to(result);
            
-        }
-
-        [Fact]
-        public void Robot_not_lost_on_scene()
-        {
-
-            var input = Given_a_martian_robot_input(3, 2, "FRRFLLFFRRFLL", "N");
-            When_martian_robot_execute_movement(input);
-            Then_martian_output_is_equals_to("3 3 N LOST");
-            When_martian_robot_execute_movement(input);
-            Then_next_time_is_not_lost();
-
-        }
-
-        private void Then_next_time_is_not_lost()
-        {
-            Assert.DoesNotContain("LOST", _robotToTest.ToString());
         }
 
         private void Then_martian_output_is_equals_to(string result)

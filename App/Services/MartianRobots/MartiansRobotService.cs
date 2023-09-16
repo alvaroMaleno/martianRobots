@@ -14,13 +14,13 @@ namespace martianRobots.Services.MartianRobots
             _robot = robot;
         }
 
-        public MartianRobotsResult SendRobotsToMars(MartianRobotInputs inputs)
+        public async Task<MartianRobotsResult> SendRobotsToMars(MartianRobotInputs inputs)
         {
             var result = new MartianRobotsResult();
             foreach (var input in inputs.MartianRobots) 
             {
                 _robot.Start(input, inputs.LandLimits);
-                _robot.ExecuteMovementCommands();
+                await _robot.ExecuteMovementCommands();
                 result.MartianRobotsResults.Add(_robot.ToString());
             }
 

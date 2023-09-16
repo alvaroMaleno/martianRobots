@@ -6,6 +6,7 @@ public interface ILand
 {
     public CoordinatesBase NewCoordinates(CoordinatesBase coordinates);
     public bool IsCoordinateInLand(CoordinatesBase coordinates);
-    public void AddScent(CoordinatesBase coordinates, CoordinatesBase instruction, string orientation);
-    public bool IsInScents(string key, CoordinatesBase instruction);
+    public Task<Dictionary<string, List<CoordinatesBase>>> GetScent(string orientation);
+    public Task AddScent(CoordinatesBase coordinates, CoordinatesBase instruction, string orientation);
+    public bool IsInScents(string key, CoordinatesBase instruction, Dictionary<string, List<CoordinatesBase>> scents);
 }

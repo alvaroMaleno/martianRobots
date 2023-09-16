@@ -1,4 +1,6 @@
 using martianRobots.Core.Models.Base;
+using martianRobots.Repositories.Redis.MartianLosts.Interfaces;
+using martianRobots.Repositories.Redis.MartianLosts.Models;
 using System.Text.Json;
 
 namespace martianRobots.Core.Models.Land;
@@ -7,40 +9,58 @@ public class MarsLand : ILand
 {
 
     private CoordinatesBase _coordinates;
-    private Dictionary<string, List<CoordinatesBase>> _scents;
+    private IMartianRobotLostRepository _repository;
 
-    public MarsLand()
+    public MarsLand(IMartianRobotLostRepository repository)
     {
         _coordinates = new TwoDCoordinates();
-        _scents = new Dictionary<string, List<CoordinatesBase>>();
+        _repository = repository;
     }
 
-    public MarsLand(CoordinatesBase coordinates) 
+    public MarsLand(
+        CoordinatesBase coordinates,
+        IMartianRobotLostRepository repository) 
     {
         _coordinates = coordinates;
-        _scents = new Dictionary<string, List<CoordinatesBase>>();
+        _repository = repository;
     }
 
-    public void AddScent(CoordinatesBase coordinates, CoordinatesBase instruction, string orientation)
+    public async Task<Dictionary<string, List<CoordinatesBase>>> GetScent(string orientation)
     {
+        return (await GetMartianLosts(orientation)).Scents;
+    }
+
+    public async Task AddScent(CoordinatesBase coordinates, CoordinatesBase instruction, string orientation)
+    {
+        var martianLosts = await GetMartianLosts(orientation);
         var key = string.Concat(coordinates.x, coordinates.y, orientation);
-        if (!IsInScents(key, instruction)) 
+        
+        if (!IsInScents(key, instruction, martianLosts.Scents)) 
         {
-            var toAdd = _scents.ContainsKey(key) ? _scents[key] : new List<CoordinatesBase>();
+            var toAdd = martianLosts.Scents.ContainsKey(key) ? martianLosts.Scents[key] : new List<CoordinatesBase>();
             toAdd.Add(instruction);
-            _scents.Add(
+            martianLosts.Scents.Add(
                 key,
                 toAdd
                 );
-        }
-            
+
+            await _repository.SetMartianLosts(martianLosts);
+        }   
     }
 
-    public bool IsInScents(string key, CoordinatesBase instruction)
+    private async Task<MartianLosts> GetMartianLosts(string orientation) 
     {
-        return 
-            _scents.ContainsKey(key) && 
-            _scents[key]
+        var martianLosts = new MartianLosts(orientation, _coordinates, new Dictionary<string, List<CoordinatesBase>>());
+        var martianLostFromCache = await _repository.GetMartianLosts(martianLosts.GetKey());
+
+        return martianLostFromCache is null ? martianLosts : martianLostFromCache;
+    }
+
+    public bool IsInScents(string key, CoordinatesBase instruction, Dictionary<string, List<CoordinatesBase>> scents)
+    {
+        return
+            scents.ContainsKey(key) &&
+            scents[key]
                 .Any(coordinates => 
                     coordinates.x == instruction.x && 
                     coordinates.y == instruction.y

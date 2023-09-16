@@ -1,5 +1,4 @@
 using FluentValidation;
-using martianRobots.Core.Models;
 using martianRobots.Core.Models.Base;
 using martianRobots.Core.Models.ExInput;
 using martianRobots.Services.MartianRobots.Interfaces;
@@ -36,28 +35,36 @@ public class MartianRobotsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> PostRobots([FromBody] MartianRobotInputs inputs)
     {
-        _logger.LogInformation("New Martians PostRobots: " + JsonSerializer.Serialize(inputs));
-       
-        if (inputs is null)
-            return BadRequest("Null inputs");
-        if (inputs.LandLimits is null)
-            return BadRequest("Null landLimits");
-        if (inputs.MartianRobots is null)
-            return BadRequest("Null martianRobots");
+        try
+        {
+            _logger.LogInformation("New Martians PostRobots: " + JsonSerializer.Serialize(inputs));
 
-        var validations = _coordinatesValidator.Validate(inputs.LandLimits);
-        if (!validations.IsValid)
-            return BadRequest("LandLimits coordinates must be less than or equal to 50.");
+            if (inputs is null)
+                return BadRequest("Null inputs");
+            if (inputs.LandLimits is null)
+                return BadRequest("Null landLimits");
+            if (inputs.MartianRobots is null)
+                return BadRequest("Null martianRobots");
 
-        foreach (var input in inputs.MartianRobots)
-            if(!_martianRobotInputValidator.Validate(input).IsValid)
-                return BadRequest(
-                    string.Concat(
-                        "Robot coordinates must be less than or equal to 50.",
-                        "Command must be less than or equal to 100."
-                        )
-                    );
+            var validations = _coordinatesValidator.Validate(inputs.LandLimits);
+            if (!validations.IsValid)
+                return BadRequest("LandLimits coordinates must be less than or equal to 50.");
 
-        return Created("Created at: " + DateTime.Now, _martianRobotsService.SendRobotsToMars(inputs));
+            foreach (var input in inputs.MartianRobots)
+                if (!_martianRobotInputValidator.Validate(input).IsValid)
+                    return BadRequest(
+                        string.Concat(
+                            "Robot coordinates must be less than or equal to 50.",
+                            "Command must be less than or equal to 100."
+                            )
+                        );
+
+            return Created("Created at: " + DateTime.Now, await _martianRobotsService.SendRobotsToMars(inputs));
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
+        
     }
 }
