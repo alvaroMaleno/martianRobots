@@ -33,7 +33,7 @@ public class TwoDMovement : IMovement
 
     public TwoDMovement() { }
 
-    public ICoordinatesBase GetForwardCoordinatesFromOrientation(char orientation)
+    public CoordinatesBase GetForwardCoordinatesFromOrientation(char orientation)
     {
         switch (orientation) 
         {
@@ -58,7 +58,7 @@ public class TwoDMovement : IMovement
         return orientation;
     }
 
-    ICoordinatesBase IMovement.GetNewCoordinates(ICoordinatesBase current, ICoordinatesBase addition)
+    CoordinatesBase IMovement.GetNewCoordinates(CoordinatesBase current, CoordinatesBase addition)
     {
         return new TwoDCoordinates(current.x + addition.x, current.y + addition.y);
     }

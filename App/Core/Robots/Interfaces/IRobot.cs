@@ -5,7 +5,7 @@ namespace martianRobots.Core.Robots.Interfaces
 {
     public interface IRobot
     {
-        void Start(MartianRobotInput input, ICoordinatesBase landLimits);
+        void Start(MartianRobotInput input, CoordinatesBase landLimits);
         void ExecuteMovementCommands();
     }
 }

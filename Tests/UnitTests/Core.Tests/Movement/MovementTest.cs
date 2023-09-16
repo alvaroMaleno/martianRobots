@@ -48,23 +48,23 @@ public class TwoDMovementTests
         Then_result_is_the_addition_of_both(coordinates, coordinatesToBeAdded, result);
     }
 
-    private ICoordinatesBase Given_2D_coordinates(int x, int y)
+    private CoordinatesBase Given_2D_coordinates(int x, int y)
     {
         return new TwoDCoordinates(x, y);
     }
 
-    private ICoordinatesBase When_2D_GetNewCoordinates_is_invoked(
-        ICoordinatesBase coordinates,
-        ICoordinatesBase coordinatesToBeAdded
+    private CoordinatesBase When_2D_GetNewCoordinates_is_invoked(
+        CoordinatesBase coordinates,
+        CoordinatesBase coordinatesToBeAdded
         )
     {
         return twoDMovement.GetNewCoordinates(coordinates, coordinatesToBeAdded);
     }
 
     private void Then_result_is_the_addition_of_both(
-        ICoordinatesBase coordinates,
-        ICoordinatesBase coordinatesToBeAdded,
-        ICoordinatesBase result
+        CoordinatesBase coordinates,
+        CoordinatesBase coordinatesToBeAdded,
+        CoordinatesBase result
         )
     {
         Assert.Equal(coordinates.x + coordinatesToBeAdded.x, result.x);
