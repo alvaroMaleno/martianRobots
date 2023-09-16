@@ -1,4 +1,7 @@
+using martianRobots.Core.Models;
+using martianRobots.Core.Models.Land;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace martianRobots.Controllers;
 
@@ -12,10 +15,12 @@ public class WeatherForecastController : ControllerBase
     };
 
     private readonly ILogger<WeatherForecastController> _logger;
+    private readonly ILand _land;
 
-    public WeatherForecastController(ILogger<WeatherForecastController> logger)
+    public WeatherForecastController(ILogger<WeatherForecastController> logger, ILand land)
     {
         _logger = logger;
+        _land = land;
     }
 
     [HttpGet(Name = "GetWeatherForecast")]
@@ -28,5 +33,12 @@ public class WeatherForecastController : ControllerBase
             Summary = Summaries[Random.Shared.Next(Summaries.Length)]
         })
         .ToArray();
+    }
+
+    [HttpGet("/api/", Name = "GetMars")]
+    public string GetMars()
+    {
+        _land.NewCoordinates(new TwoDCoordinates(8, 9));
+        return _land.ToString() ?? string.Empty;
     }
 }

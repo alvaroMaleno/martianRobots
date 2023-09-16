@@ -1,7 +1,9 @@
+using martianRobots.Core.Models.Base;
+
 namespace martianRobots.Core.Models.Land;
 
 public interface ILand
 {
-    public int x { get; set; }
-    public int y { get; set; }
+    public ICoordinatesBase NewCoordinates(ICoordinatesBase coordinates);
+    public bool IsCoordinateInLand(ICoordinatesBase coordinates);
 }
