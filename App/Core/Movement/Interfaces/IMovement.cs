@@ -4,7 +4,7 @@ namespace martianRobots.Core.Movement.Interfaces;
 
 public interface IMovement
 {
-    ICoordinatesBase GetNewCoordinates(ICoordinatesBase current, ICoordinatesBase addition);
+    CoordinatesBase GetNewCoordinates(CoordinatesBase current, CoordinatesBase addition);
     string GetNewOrientation(string orientation, string command);
-    ICoordinatesBase GetForwardCoordinatesFromOrientation(char orientation);
+    CoordinatesBase GetForwardCoordinatesFromOrientation(char orientation);
 }

@@ -4,13 +4,12 @@ using martianRobots.Core.Models.ExInput;
 using martianRobots.Core.Models.Land;
 using martianRobots.Core.Movement.Interfaces;
 using martianRobots.Core.Robots.Interfaces;
-using System.Diagnostics.CodeAnalysis;
 
 namespace martianRobots.Core.Robots
 {
     public class MartianRobot : IRobot
     {
-        private ICoordinatesBase _coordinates;
+        private CoordinatesBase _coordinates;
         private IMovement _movement;
         private ILand _land;
         private MartianRobotInput? _input;
@@ -18,7 +17,7 @@ namespace martianRobots.Core.Robots
         private bool _isLost = false;
 
         public MartianRobot(
-            ICoordinatesBase coordinates,
+            CoordinatesBase coordinates,
             IMovement movement,
             ILand land) 
         {
@@ -27,7 +26,7 @@ namespace martianRobots.Core.Robots
             _land = land;
         }
 
-        public void Start(MartianRobotInput input, ICoordinatesBase landLimits)
+        public void Start(MartianRobotInput input, CoordinatesBase landLimits)
         {
             _isLost = false;
             _input = input;
@@ -80,7 +79,7 @@ namespace martianRobots.Core.Robots
             }
         }
 
-        private bool IsLost(ICoordinatesBase newCoordinates)
+        private bool IsLost(CoordinatesBase newCoordinates)
         {
             return !_land.IsCoordinateInLand(newCoordinates);
         }

@@ -6,27 +6,27 @@ namespace martianRobots.Core.Models.Land;
 public class MarsLand : ILand
 {
 
-    private ICoordinatesBase _coordinates;
-    private Dictionary<string, List<ICoordinatesBase>> _scents;
+    private CoordinatesBase _coordinates;
+    private Dictionary<string, List<CoordinatesBase>> _scents;
 
     public MarsLand()
     {
         _coordinates = new TwoDCoordinates();
-        _scents = new Dictionary<string, List<ICoordinatesBase>>();
+        _scents = new Dictionary<string, List<CoordinatesBase>>();
     }
 
-    public MarsLand(ICoordinatesBase coordinates) 
+    public MarsLand(CoordinatesBase coordinates) 
     {
         _coordinates = coordinates;
-        _scents = new Dictionary<string, List<ICoordinatesBase>>();
+        _scents = new Dictionary<string, List<CoordinatesBase>>();
     }
 
-    public void AddScent(ICoordinatesBase coordinates, ICoordinatesBase instruction, string orientation)
+    public void AddScent(CoordinatesBase coordinates, CoordinatesBase instruction, string orientation)
     {
         var key = string.Concat(coordinates.x, coordinates.y, orientation);
         if (!IsInScents(key, instruction)) 
         {
-            var toAdd = _scents.ContainsKey(key) ? _scents[key] : new List<ICoordinatesBase>();
+            var toAdd = _scents.ContainsKey(key) ? _scents[key] : new List<CoordinatesBase>();
             toAdd.Add(instruction);
             _scents.Add(
                 key,
@@ -36,7 +36,7 @@ public class MarsLand : ILand
             
     }
 
-    public bool IsInScents(string key, ICoordinatesBase instruction)
+    public bool IsInScents(string key, CoordinatesBase instruction)
     {
         return 
             _scents.ContainsKey(key) && 
@@ -47,7 +47,7 @@ public class MarsLand : ILand
                     );
     }
 
-    public bool IsCoordinateInLand(ICoordinatesBase coordinates)
+    public bool IsCoordinateInLand(CoordinatesBase coordinates)
     {
         var result = false;
 
@@ -57,7 +57,7 @@ public class MarsLand : ILand
         return result;
     }
 
-    public ICoordinatesBase NewCoordinates(ICoordinatesBase coordinates)
+    public CoordinatesBase NewCoordinates(CoordinatesBase coordinates)
     {
         _coordinates = coordinates ?? throw new ArgumentNullException(nameof(coordinates));
         return _coordinates;
