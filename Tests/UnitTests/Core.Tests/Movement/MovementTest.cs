@@ -10,16 +10,30 @@ public class TwoDMovementTests
 
     [Theory]
     [InlineData("R", "N", "E")]
-    [InlineData("R", "S", "O")]
+    [InlineData("R", "S", "W")]
     [InlineData("R", "E", "S")]
-    [InlineData("R", "O", "N")]
-    [InlineData("L", "N", "O")]
+    [InlineData("R", "W", "N")]
+    [InlineData("L", "N", "W")]
     [InlineData("L", "S", "E")]
     [InlineData("L", "E", "N")]
-    [InlineData("L", "O", "S")]
+    [InlineData("L", "W", "S")]
     public void When_Command_is_X_and_Orientation_is_Y_then_GetNewOrientation_result_is(string command, string orientation, string result)
     {
         Assert.Equal(twoDMovement.GetNewOrientation(orientation, command), result);
+    }
+
+    [Theory]
+    [InlineData('N', 0, 1)]
+    [InlineData('S', 0, -1)]
+    [InlineData('E', 1, 0)]
+    [InlineData('W', -1, 0)]
+    public void GetForwardCommandFromOrientation_returns_coordinates(char orientation, int x, int y)
+    {
+        var result = twoDMovement.GetForwardCoordinatesFromOrientation(orientation);
+        Assert.True(
+            result.x == x && 
+            result.y == y
+            );
     }
 
     [Fact]
