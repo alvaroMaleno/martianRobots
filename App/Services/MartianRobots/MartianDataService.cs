@@ -2,6 +2,7 @@
 using martianRobots.Repositories.Redis.MartianData.Interfaces;
 using martianRobots.Repositories.Redis.MartianData.Models;
 using martianRobots.Services.MartianRobots.Interfaces;
+using martianRobots.Services.MartianRobots.Models;
 
 namespace martianRobots.Services.MartianRobots
 {
@@ -14,34 +15,49 @@ namespace martianRobots.Services.MartianRobots
             _martianDataRepository = martianDataRepository;
         }
 
-        public Task<List<string>> GetMarsVisitedCoordinates()
+        public async Task<List<string>> GetMarsVisitedCoordinates()
         {
-            return _martianDataRepository.GetMarsVisitedCoordinates();
+            return await _martianDataRepository.GetMarsVisitedCoordinates();
         }
 
-        public Task<List<MartianRobotInput>> GetMartianRobotInputs()
+        public async Task<List<MartianRobotInput>> GetMartianRobotInputs()
         {
-            return _martianDataRepository.GetMartianRobotInputs();
+            return await _martianDataRepository.GetMartianRobotInputs();
         }
 
-        public Task<List<MartianInputResultDto>> GetMartianRobotInputsWithResult()
+        public async Task<List<MartianInputResultDto>> GetMartianRobotInputsWithResult()
         {
-            return _martianDataRepository.GetMartianRobotInputsWithResult();
+            return await _martianDataRepository.GetMartianRobotInputsWithResult();
         }
 
-        public Task<bool> SaveMarsVisitedCoordinates(string coordinates)
+        public async Task<bool> SaveMarsVisitedCoordinates(string coordinates)
         {
-            return _martianDataRepository.SaveMarsVisitedCoordinates(coordinates);
+            return await _martianDataRepository.SaveMarsVisitedCoordinates(coordinates);
         }
 
-        public Task<bool> SaveMartianRobotInput(MartianRobotInput martianRobotInput)
+        public async Task<bool> SaveMartianRobotInput(MartianRobotInput martianRobotInput)
         {
-            return _martianDataRepository.SaveMartianRobotInput(martianRobotInput);
+            return await _martianDataRepository.SaveMartianRobotInput(martianRobotInput);
         }
 
-        public Task<bool> SaveMartianRobotInputWithResult(MartianRobotInput martianRobotInput, string result)
+        public async Task<bool> SaveMartianRobotInputWithResult(MartianRobotInput martianRobotInput, string result)
         {
-            return _martianDataRepository.SaveMartianRobotInputWithResult(martianRobotInput, result);
+            return await _martianDataRepository.SaveMartianRobotInputWithResult(martianRobotInput, result);
+        }
+
+        public async Task<MartianDataStatsResult> GetStats() 
+        {
+            var stats = new MartianDataStatsResult();
+            var inputsWithResult = await GetMartianRobotInputsWithResult();
+
+            stats.TotalOks = inputsWithResult.Where(x => !x.Result.Contains("LOST")).Count();
+            stats.TotalLosts = inputsWithResult.Where(x => x.Result.Contains("LOST")).Count();
+            stats.TotalEnvies = inputsWithResult.Count();
+            stats.OksPercentage = Math.Round(((double) stats.TotalOks / (double)stats.TotalEnvies) * 100, 2);
+            stats.LostsPercentage = Math.Round(((double) stats.TotalLosts / (double) stats.TotalEnvies) * 100, 2);
+            stats.TotalCoordinates = (await GetMarsVisitedCoordinates()).Count();
+
+            return stats;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using martianRobots.Core.Models.ExInput;
 using martianRobots.Repositories.Redis.MartianData.Models;
+using martianRobots.Services.MartianRobots.Models;
 
 namespace martianRobots.Services.MartianRobots.Interfaces
 {
@@ -11,5 +12,6 @@ namespace martianRobots.Services.MartianRobots.Interfaces
         public Task<List<MartianInputResultDto>> GetMartianRobotInputsWithResult();
         public Task<List<string>> GetMarsVisitedCoordinates();
         public Task<bool> SaveMarsVisitedCoordinates(string coordinates);
+        public Task<MartianDataStatsResult> GetStats();
     }
 }

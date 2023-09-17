@@ -69,4 +69,21 @@ public class MartianRobotsDataController : ControllerBase
             return StatusCode(500, ex.Message);
         }
     }
+
+    [HttpGet("/api/MarsStats", Name = "GetMarsStats")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> GetMarsStats()
+    {
+        try
+        {
+            _logger.LogInformation("GetMarsStats");
+            return Ok(await _martianDataService.GetStats());
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.Message);
+            return StatusCode(500, ex.Message);
+        }
+    }
 }
