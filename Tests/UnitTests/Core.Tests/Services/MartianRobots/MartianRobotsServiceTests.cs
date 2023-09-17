@@ -13,11 +13,13 @@ namespace Core.Tests.Services.MartianRobots
         private MartianRobotsResult _result;
         private IMartianRobotsService _service;
         private Mock<IRobot> _robotMock;
+        private Mock<IMartianDataService> _martianDataService;
 
         public MartianRobotsServiceTests() 
         {
             _robotMock = new Mock<IRobot>();
-            _service = new MartianRobotsService(_robotMock.Object);
+            _martianDataService = new Mock<IMartianDataService>();
+            _service = new MartianRobotsService(_robotMock.Object, _martianDataService.Object);
         }
 
         [Fact]

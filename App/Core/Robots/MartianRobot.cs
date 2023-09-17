@@ -4,6 +4,8 @@ using martianRobots.Core.Models.ExInput;
 using martianRobots.Core.Models.Land;
 using martianRobots.Core.Movement.Interfaces;
 using martianRobots.Core.Robots.Interfaces;
+using martianRobots.Repositories.Redis.MartianData.Interfaces;
+using martianRobots.Services.MartianRobots.Interfaces;
 
 namespace martianRobots.Core.Robots
 {
@@ -12,6 +14,7 @@ namespace martianRobots.Core.Robots
         private CoordinatesBase _coordinates;
         private IMovement _movement;
         private ILand _land;
+        private IMartianDataService _martianDataService;
         private MartianRobotInput? _input;
         private string _orientation = "N";
         private bool _isLost = false;
@@ -19,11 +22,13 @@ namespace martianRobots.Core.Robots
         public MartianRobot(
             CoordinatesBase coordinates,
             IMovement movement,
-            ILand land) 
+            ILand land,
+            IMartianDataService martianDataService) 
         {
             _coordinates = coordinates;
             _movement = movement;   
             _land = land;
+            _martianDataService = martianDataService;
         }
 
         public void Start(MartianRobotInput input, CoordinatesBase landLimits)
@@ -44,6 +49,8 @@ namespace martianRobots.Core.Robots
                     );
 
             _orientation = string.IsNullOrEmpty(_input?.Orientation) ? _orientation : _input.Orientation;
+
+            _martianDataService.SaveMarsVisitedCoordinates(_coordinates.ToString());
         }
 
         public async Task ExecuteMovementCommands()
@@ -67,10 +74,12 @@ namespace martianRobots.Core.Robots
                         var keyPos = string.Concat(_coordinates.x, _coordinates.y, _orientation);
                         _isLost = _land.IsInScents(keyPos, coordinatesToFollow, await _land.GetScent(_orientation)) ? _isLost : true;
                         await _land.AddScent(_coordinates, coordinatesToFollow, _orientation);
+                        _martianDataService.SaveMarsVisitedCoordinates(_coordinates.ToString() + " Scent");
                         continue;
                     }
 
                     _coordinates = newCoordinates;
+                    _martianDataService.SaveMarsVisitedCoordinates(_coordinates.ToString());
                 }
                 else 
                 {
