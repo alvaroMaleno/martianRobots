@@ -1,0 +1,20 @@
+{
+  "name": "martianrobots",
+  "version": "1.0.0",
+  "description": "Testing martian Robots Controller",
+  "main": "martianRobotsControllerTesting.js",
+  "scripts": {
+    "test": "tst"
+  },
+  "repository": {
+    "type": "git",
+    "url": "n"
+  },
+  "author": "Alvaro Maleno",
+  "license": "MIT",
+  "dependencies": {
+    "-": "^0.0.1",
+    "fetch": "^1.1.0",
+    "node": "^20.6.0"
+  }
+}

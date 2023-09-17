@@ -5,3 +5,5 @@ App/.vs/
 Tests/UnitTests/Core.Tests/bin/
 Tests/UnitTests/Core.Tests/obj/
 bin/
+E2E/Testing/MartianRobots/node_modules/
+E2E/Testing/MartianRobots/package-lock.json
