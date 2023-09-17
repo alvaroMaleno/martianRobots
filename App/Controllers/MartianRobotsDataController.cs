@@ -1,4 +1,4 @@
-using martianRobots.Repositories.Redis.MartianData.Interfaces;
+using martianRobots.Services.MartianRobots.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace martianRobots.Controllers;
@@ -9,14 +9,14 @@ public class MartianRobotsDataController : ControllerBase
 {
  
     private readonly ILogger<MartianRobotsDataController> _logger;
-    private readonly IMartianDataRepository _martianDataRepository;
+    private readonly IMartianDataService _martianDataService;
 
     public MartianRobotsDataController(
-        ILogger<MartianRobotsDataController> logger, 
-        IMartianDataRepository martianDataRepository)
+        ILogger<MartianRobotsDataController> logger,
+        IMartianDataService martianDataService)
     {
         _logger = logger;
-        _martianDataRepository = martianDataRepository;
+        _martianDataService = martianDataService;
     }
 
     [HttpGet("/api/MartianRobotsInputs", Name = "GetMartianRobotsInputs")]
@@ -26,10 +26,12 @@ public class MartianRobotsDataController : ControllerBase
     {
         try
         {
-            return Ok(await _martianDataRepository.GetMartianRobotInputs());
+            _logger.LogInformation("GetMartianRobotsInputs");
+            return Ok(await _martianDataService.GetMartianRobotInputs());
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex.Message);
             return StatusCode(500, ex.Message);
         }
     }
@@ -41,10 +43,12 @@ public class MartianRobotsDataController : ControllerBase
     {
         try
         {
-            return Ok(await _martianDataRepository.GetMartianRobotInputsWithResult());
+            _logger.LogInformation("GetMartianRobotsInputsWithResult");
+            return Ok(await _martianDataService.GetMartianRobotInputsWithResult());
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex.Message);
             return StatusCode(500, ex.Message);
         }
     }
@@ -56,10 +60,12 @@ public class MartianRobotsDataController : ControllerBase
     {
         try
         {
-            return Ok(await _martianDataRepository.GetMarsVisitedCoordinates());
+            _logger.LogInformation("GetMarsCoordinatesVisited");
+            return Ok(await _martianDataService.GetMarsVisitedCoordinates());
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex.Message);
             return StatusCode(500, ex.Message);
         }
     }

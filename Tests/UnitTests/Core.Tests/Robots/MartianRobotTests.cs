@@ -5,6 +5,7 @@ using martianRobots.Core.Movement;
 using martianRobots.Core.Robots;
 using martianRobots.Repositories.Redis.MartianData.Interfaces;
 using martianRobots.Repositories.Redis.MartianLosts.Interfaces;
+using martianRobots.Services.MartianRobots.Interfaces;
 using Moq;
 
 
@@ -13,19 +14,19 @@ namespace Core.Tests.Robots
     public class MartianRobotTests
     {
         private Mock<IMartianRobotLostRepository> _repositoryMock;
-        private Mock<IMartianDataRepository> _repositoryDataMock;
+        private Mock<IMartianDataService> _serviceDataMock;
         private MartianRobot _robotToTest;
 
         public MartianRobotTests() 
         {
             _repositoryMock = new Mock<IMartianRobotLostRepository>();
-            _repositoryDataMock = new Mock<IMartianDataRepository>();
+            _serviceDataMock = new Mock<IMartianDataService>();
             _robotToTest = 
                 new MartianRobot(
                     new TwoDCoordinates(), 
                     new TwoDMovement(), 
-                    new MarsLand(_repositoryMock.Object), 
-                    _repositoryDataMock.Object
+                    new MarsLand(_repositoryMock.Object),
+                    _serviceDataMock.Object
                     );
         }
 

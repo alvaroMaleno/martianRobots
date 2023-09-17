@@ -26,6 +26,7 @@ namespace martianRobots.ServicesInjection
             services.AddSingleton<IMovement, TwoDMovement>();
             services.AddSingleton<IRobot, MartianRobot>();
             services.AddSingleton<IMartianRobotsService, MartianRobotsService>();
+            services.AddSingleton<IMartianDataService, MartianDataService>();
             services.AddSingleton<IMartianRobotLostRepository, MartianLostRepository>();
             services.AddSingleton<IMartianDataRepository, MartianDataRepository>();
             services.AddScoped<IValidator<CoordinatesBase>, CoordinatesBaseValidator>();

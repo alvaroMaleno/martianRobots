@@ -1,7 +1,6 @@
 ﻿using martianRobots.Core.Models;
 using martianRobots.Core.Models.ExInput;
 using martianRobots.Core.Robots.Interfaces;
-using martianRobots.Repositories.Redis.MartianData.Interfaces;
 using martianRobots.Services.MartianRobots;
 using martianRobots.Services.MartianRobots.Interfaces;
 using martianRobots.Services.MartianRobots.Models;
@@ -14,13 +13,13 @@ namespace Core.Tests.Services.MartianRobots
         private MartianRobotsResult _result;
         private IMartianRobotsService _service;
         private Mock<IRobot> _robotMock;
-        private Mock<IMartianDataRepository> _martianDataRepository;
+        private Mock<IMartianDataService> _martianDataService;
 
         public MartianRobotsServiceTests() 
         {
             _robotMock = new Mock<IRobot>();
-            _martianDataRepository = new Mock<IMartianDataRepository>();
-            _service = new MartianRobotsService(_robotMock.Object, _martianDataRepository.Object);
+            _martianDataService = new Mock<IMartianDataService>();
+            _service = new MartianRobotsService(_robotMock.Object, _martianDataService.Object);
         }
 
         [Fact]
