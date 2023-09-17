@@ -7,6 +7,8 @@ using martianRobots.Core.Movement;
 using martianRobots.Core.Movement.Interfaces;
 using martianRobots.Core.Robots;
 using martianRobots.Core.Robots.Interfaces;
+using martianRobots.Repositories.Redis.MartianData;
+using martianRobots.Repositories.Redis.MartianData.Interfaces;
 using martianRobots.Repositories.Redis.MartianLosts;
 using martianRobots.Repositories.Redis.MartianLosts.Interfaces;
 using martianRobots.Services.MartianRobots;
@@ -25,6 +27,7 @@ namespace martianRobots.ServicesInjection
             services.AddSingleton<IRobot, MartianRobot>();
             services.AddSingleton<IMartianRobotsService, MartianRobotsService>();
             services.AddSingleton<IMartianRobotLostRepository, MartianLostRepository>();
+            services.AddSingleton<IMartianDataRepository, MartianDataRepository>();
             services.AddScoped<IValidator<CoordinatesBase>, CoordinatesBaseValidator>();
             services.AddScoped<IValidator<MartianRobotInput>, MartianRobotInputValidator>();
 

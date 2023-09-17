@@ -7,7 +7,7 @@ namespace martianRobots.Core.Models.Land;
 
 public class MarsLand : ILand
 {
-
+    private const int Origin = 0;
     private CoordinatesBase _coordinates;
     private IMartianRobotLostRepository _repository;
 
@@ -69,12 +69,10 @@ public class MarsLand : ILand
 
     public bool IsCoordinateInLand(CoordinatesBase coordinates)
     {
-        var result = false;
-
-        if (_coordinates.x >= coordinates.x && _coordinates.y >= coordinates.y) 
-            result = true;
-
-        return result;
+        return _coordinates.x >= coordinates.x &&
+               _coordinates.y >= coordinates.y &&
+               coordinates.x >= Origin &&
+               coordinates.y >= Origin;
     }
 
     public CoordinatesBase NewCoordinates(CoordinatesBase coordinates)
