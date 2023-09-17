@@ -21,12 +21,12 @@ namespace Core.Tests.Services.MartianRobots
         }
 
         [Fact]
-        public void SendRobotsToMars_returns_non_empty_result()
+        public async Task SendRobotsToMars_returns_non_empty_result()
         {
 
             var input = Given_an_input();
             Given_an_output();
-            When_Robots_Are_Sent_to_Mars(input);
+            await When_Robots_Are_Sent_to_Mars(input);
             Then_Result_Contains_Outputs();
             And_Also_Ouput_Is_Equal_to("output");
         }
@@ -41,9 +41,9 @@ namespace Core.Tests.Services.MartianRobots
             Assert.NotEmpty(_result.MartianRobotsResults);
         }
 
-        private void When_Robots_Are_Sent_to_Mars(MartianRobotInputs input)
+        private async Task When_Robots_Are_Sent_to_Mars(MartianRobotInputs input)
         {
-            _result = _service.SendRobotsToMars(input);
+            _result = await _service.SendRobotsToMars(input);
         }
 
         private void Given_an_output()

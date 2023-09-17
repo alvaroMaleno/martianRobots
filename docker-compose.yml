@@ -1,7 +1,16 @@
-version: '1'
+version: '3.7'
 
 services:
   martianrobots:
-    image: martianrobots
+      image: martianrobots
+      depends_on:
+        - "redis_image"
+      ports:
+        - 5000:5000
+      links:
+        - "redis_image"
+  redis_image:
+    image: redis
+    container_name: cache_container
     ports:
-      - 5000:5000
+      - "6379:6379"

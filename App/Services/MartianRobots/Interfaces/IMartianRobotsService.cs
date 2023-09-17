@@ -5,6 +5,6 @@ namespace martianRobots.Services.MartianRobots.Interfaces
 {
     public interface IMartianRobotsService
     {
-        public MartianRobotsResult SendRobotsToMars(MartianRobotInputs inputs);
+        public Task<MartianRobotsResult> SendRobotsToMars(MartianRobotInputs inputs);
     }
 }

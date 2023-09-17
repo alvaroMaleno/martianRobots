@@ -6,7 +6,7 @@ namespace martianRobots.Core.Models.ExInput
     public class MartianRobotInput
     {
         public CoordinatesBase RobotCoordinates { get; set; } = new CoordinatesBase();
-        public string? Command { get; set; }
-        public string? Orientation { get; set; }
+        public string Command { get; set; } = string.Empty;
+        public string Orientation { get; set; } = string.Empty;
     }
 }

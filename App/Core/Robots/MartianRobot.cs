@@ -46,7 +46,7 @@ namespace martianRobots.Core.Robots
             _orientation = string.IsNullOrEmpty(_input?.Orientation) ? _orientation : _input.Orientation;
         }
 
-        public void ExecuteMovementCommands()
+        public async Task ExecuteMovementCommands()
         {
             foreach (char instruction in _input?.Command ?? string.Empty) 
             {
@@ -65,8 +65,8 @@ namespace martianRobots.Core.Robots
                     if (IsLost(newCoordinates)) 
                     {
                         var keyPos = string.Concat(_coordinates.x, _coordinates.y, _orientation);
-                        _isLost = _land.IsInScents(keyPos, coordinatesToFollow) ? _isLost : true;
-                        _land.AddScent(_coordinates, coordinatesToFollow, _orientation);
+                        _isLost = _land.IsInScents(keyPos, coordinatesToFollow, await _land.GetScent(_orientation)) ? _isLost : true;
+                        await _land.AddScent(_coordinates, coordinatesToFollow, _orientation);
                         continue;
                     }
 
